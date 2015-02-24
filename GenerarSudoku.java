@@ -6,8 +6,8 @@ import java.util.Random;
 
 public class GenerarSudoku {
 	
-	private static int TamanyQuadrant = 3;
-	private static int TamanyQuadricula;
+	private static int tamanyQuadrant = 3;
+	private static int tamanyQuadricula;
 	private static int[][] cuadricula;
 	private static int[] numeros;
 	private static Random r = new Random();
@@ -15,21 +15,21 @@ public class GenerarSudoku {
 	public static void main(String[] args) {
 		
 		if ((args.length>0) && (args[0].equals("2") || args[0].equals("3") || args[0].equals("4"))){
-			TamanyQuadrant = Integer.parseInt(args[0]);
+			tamanyQuadrant = Integer.parseInt(args[0]);
 		}
-		TamanyQuadricula=(int) Math.pow(TamanyQuadrant, 2);
-		cuadricula=new int[TamanyQuadricula][TamanyQuadricula];
-		numeros = new int[TamanyQuadricula];
+		tamanyQuadricula=(int) Math.pow(tamanyQuadrant, 2);
+		cuadricula=new int[tamanyQuadricula][tamanyQuadricula];
+		numeros = new int[tamanyQuadricula];
 				
-		for (int i= 0; i < TamanyQuadricula; i++) 
+		for (int i= 0; i < tamanyQuadricula; i++) 
 			numeros[i] = i + 1;	
 
 		int intentosFila = 0, nFilaAnt = 0;
 		int nFila = 0;
-		reinicioCuadricula:
-		while (nFila < TamanyQuadricula){
+		reinicioCuadricula: 
+		while (nFila < tamanyQuadricula){
 			reinicioFila:
-			for (int nColumna = 0; nColumna < TamanyQuadricula; nColumna++){
+			for (int nColumna = 0; nColumna < tamanyQuadricula; nColumna++){
 				List<Integer> numsPosibles = buscarNumsPosibles(nFila, nColumna);
 				int numeroAleatorio = generaNumeroAleatorio(numsPosibles);
 				if (numeroAleatorio != 0) {
@@ -40,13 +40,13 @@ public class GenerarSudoku {
 						intentosFila = 0;
 					}
 					intentosFila++;
-					if (intentosFila < TamanyQuadricula){
+					if (intentosFila < tamanyQuadricula){
 						nFila--;
 						break reinicioFila;
 					}else{
 						intentosFila=0;
 						nFila=0;
-						cuadricula=new int[TamanyQuadricula][TamanyQuadricula];
+						cuadricula=new int[tamanyQuadricula][tamanyQuadricula];
 						continue reinicioCuadricula;
 					}						
 				}
@@ -58,8 +58,8 @@ public class GenerarSudoku {
 		
 		System.out.println();
 		int numero;
-		for (nFila = 0; nFila < TamanyQuadricula; nFila++){
-			for (int nColumna = 0; nColumna < TamanyQuadricula; nColumna++){
+		for (nFila = 0; nFila < tamanyQuadricula; nFila++){
+			for (int nColumna = 0; nColumna < tamanyQuadricula; nColumna++){
    					numero = cuadricula[nFila][nColumna];
 				if (numero < 10){
 	   				System.out.print(numero+" ");
@@ -112,13 +112,9 @@ public class GenerarSudoku {
 		boolean encontrado = false;
 		int posIniFila = determinaPosIni(nFila);
 		int posIniCol = determinaPosIni(nCol);
-		int posFinFila = posIniFila+TamanyQuadrant;
-		int posFinCol = posIniCol+TamanyQuadrant;
-		if (!(nFila == posIniFila && nCol == posIniCol)){
-			for (int i=posIniFila; i<posFinFila; i++){
-				for (int j=posIniCol; (j<posFinCol)&&!(i==nFila&&j==nCol); j++){
-					if (cuadricula[i][j]==num) encontrado = true;
-				}
+		for (int i=posIniFila; i<posIniFila+tamanyQuadrant; i++){
+			for (int j=posIniCol; (j<posIniCol+tamanyQuadrant)&&!(i==nFila&&j==nCol); j++){
+				if (cuadricula[i][j]==num) encontrado = true;
 			}
 		}
 		return encontrado;
@@ -126,7 +122,7 @@ public class GenerarSudoku {
 
 	private static int determinaPosIni(int nPos) {
 		int i = nPos;
-		while (!(i == 0 || i % TamanyQuadrant == 0)) i--;
+		while (!(i == 0 || i % tamanyQuadrant == 0)) i--;
 		return i;
 	}
 	
